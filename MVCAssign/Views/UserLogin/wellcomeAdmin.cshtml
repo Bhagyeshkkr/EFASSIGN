@@ -1,0 +1,7 @@
+﻿
+@{
+    ViewBag.Title = "wellcome";
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
+    Layout = "~/Views/Shared/_myLayout.cshtml";
+}
+<h4>Welcome Admin: @Session["UserName"].ToString()</h4>
