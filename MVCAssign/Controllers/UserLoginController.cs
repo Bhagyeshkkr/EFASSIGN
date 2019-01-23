@@ -69,6 +69,7 @@ namespace MVCAssign.Controllers
                                {
                                    userlist.UserId,
                                    userlist.UserName
+
                                }).ToList();
 
 
@@ -76,6 +77,12 @@ namespace MVCAssign.Controllers
                 {
                     Session["UserId"] = details.FirstOrDefault().UserId;
                     Session["UserName"] = details.FirstOrDefault().UserName;
+                    //var data=db.Bhagyesh_User.Where(x => x.IsActive == reg.IsActive).FirstOrDefault();
+                    //if (data.IsActive==false)
+                    //{
+                    //    ModelState.AddModelError("", "Deactivated User");
+                    //}
+
                     return RedirectToAction("Details", "Bhagyesh_UserRegistration", new { id = details.FirstOrDefault().UserId });
                 }
             }
@@ -94,6 +101,39 @@ namespace MVCAssign.Controllers
         {
             return View();
 
+        }
+        //[HttpPost]
+        //[ActionName("Edit")]
+        //public ActionResult Edit(int id)
+        //{
+        //        return RedirectToAction("Edit"+"/"+id,"UserLogin");
+
+        //}
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Bhagyesh_User bhagyesh_User = db.Bhagyesh_User.Find(id);
+            if (bhagyesh_User == null)
+            {
+                return HttpNotFound();
+            }
+            return View(bhagyesh_User);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "UserId,UserName,Password,ConfirmPassword,Address,IsActive")] Bhagyesh_User bhagyesh_User)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(bhagyesh_User).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+
+            }
+            return View(bhagyesh_User);
         }
         public ActionResult wellcomeAdmin()
         {
@@ -126,8 +166,8 @@ namespace MVCAssign.Controllers
 
             return View("~/Views/UserLogin/wellcome.cshtml", bhagyesh_User);
         }
-       
-     
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

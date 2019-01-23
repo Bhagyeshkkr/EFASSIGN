@@ -70,7 +70,7 @@ namespace MVCAssign.Controllers
             {
                 return HttpNotFound();
             }
-            return View( bhagyesh_User);
+            return View(bhagyesh_User);
         }
 
         // POST: Bhagyesh_User/Edit/5
@@ -87,7 +87,7 @@ namespace MVCAssign.Controllers
                 return RedirectToAction("Index");
 
             }
-            return View( bhagyesh_User);
+            return View(bhagyesh_User);
         }
 
         // GET: Bhagyesh_User/Delete/5
